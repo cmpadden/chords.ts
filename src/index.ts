@@ -1,3 +1,8 @@
+//
+// TODOs
+// - determine if I want to go the OOP route, and create a `Chord` object with a constructor that takes in notes, and populates properties like `.name`
+// - separate chord name and root note { name: 'Suspended 2', root: 'C' }
+
 /**
  * Mapping of number to note (via array index)
  */
@@ -39,19 +44,22 @@ const CHORD_MAPPINGS = new Map<string, string>(
     "0 4 8 10": "Augmented 7th",
     "0 4 8": "Augmented",
     "0 5 7": "Suspended 4",
+
+    // inverted chords
+    "0 5 8": "2nd Inversion Minor",
+    "0 5 9": "2nd Inversion Major",
+    "0 4 9": "1st Inversion Minor",
+    "0 3 8": "1st Inversion Major",
   })
 );
 
 type Note = string | number;
 
 type Chord = {
-  notes: Note[];
   name: string | undefined;
+  root: Note;
+  notes: Note[];
 };
-
-// TODO: determine if I want to go the OOP route, and create a `Chord` object
-// with a constructor that takes in notes, and populates properties like
-// `.name`
 
 /**
  * Normalize a list of notes relative to the lowest note in the list
@@ -73,17 +81,28 @@ export function relativeNotes(notes: number[]): number[] {
 }
 
 /**
- * Identify if a chord interval is a first inversion
+ * Determine the root note in a sequence of notes considering inverted chords
+ * @param notes array of relative note numbers
+ * @returns index number of root note
  */
-function isFirstInversion(notes: Note[]): boolean {
-  return notes.includes(0) && notes.includes(4) && notes.includes(9);
-}
-
-/**
- * Identify if a chord interval is a second inversion
- */
-function isSecondInversion(notes: Note[]): boolean {
-  return notes.includes(0) && notes.includes(5) && notes.includes(9);
+export function rootNote(notes: number[]): number {
+  // 1st-inversion major
+  if (notes.includes(0) && notes.includes(4) && notes.includes(9)) {
+    return 9;
+  }
+  // 1st-inversion minor
+  if (notes.includes(0) && notes.includes(3) && notes.includes(8)) {
+    return 9;
+  }
+  // 2nd-inversion major
+  if (notes.includes(0) && notes.includes(5) && notes.includes(9)) {
+    return 5;
+  }
+  // 2nd-inversion minor
+  if (notes.includes(0) && notes.includes(5) && notes.includes(8)) {
+    return 5;
+  }
+  return 0;
 }
 
 /**
@@ -92,53 +111,32 @@ function isSecondInversion(notes: Note[]): boolean {
  * @param ns array of note numbers
  * @returns string representation of chord name
  */
-export function identify(ns: Note[]): Chord {
-  // convert note letters to numbers if `string[]` is provided
-  let notes = ns.map((v) =>
+export function identify(notes: Note[]): Chord {
+  // Convert note letters to numbers if `string[]` is provided
+  const noteNumbers = notes.map((v) =>
     typeof v === "number" ? v : NOTE_MAPPINGS.indexOf(v)
   );
 
-  // do not allow negative numbers
-  if (notes.some((n) => n < 0)) {
+  // Throw an error if any negative numbers exist
+  if (noteNumbers.some((n) => n < 0)) {
     throw new Error("Unsupported note letter or number provided");
   }
 
-  // starting with the bass note of the chord, determine the chord shape.
-  // For example, a C-major chord will have a bass note of C, and a shape
-  // of [0, 4, 7].
+  // Normalize the index of the note to the lowest note in the sequence,
+  // removing octave duplicates. For example, a C-major chord will have a bass
+  // note of C, and a shape of [0, 4, 7]
+  let normalizedNotes = relativeNotes(noteNumbers);
 
-  let normalizedNotes = relativeNotes(notes);
+  // Determine the root note of the chord, taking into consideration chord
+  // inversions
+  const root = rootNote(normalizedNotes);
+  const rootLetter: string = NOTE_MAPPINGS[root];
 
-  // bass note will be used to determine the non-relative letter of the
-  // chord, and will be modified if the chord is an inversion
-  let bassNote: number = Math.min.apply(Math, notes);
-
-  // Re-arrange the chord-inversion and update the bass note if notes include 0, 4, and 9
-  if (isFirstInversion(normalizedNotes)) {
-    normalizedNotes[normalizedNotes.indexOf(0)] = 0 + 12;
-    normalizedNotes[normalizedNotes.indexOf(4)] = 4 + 12;
-    normalizedNotes = relativeNotes(normalizedNotes); // re-normalize notes
-
-    // update bass note
-    bassNote = bassNote + 9;
-  }
-
-  // Re-arrange the chord-inversion and update the bass note if notes include 0, 5, and 9
-  // IMPORTANT: Need to also include 0, 5, 8 for minor inversions, but this breaks sus4
-  if (isSecondInversion(normalizedNotes)) {
-    normalizedNotes[normalizedNotes.indexOf(0)] = 0 + 12;
-    normalizedNotes = relativeNotes(normalizedNotes); // re-normalize notes
-
-    // update bass note
-    bassNote = bassNote + 5;
-  }
-
-  const bassNoteLetter: string = NOTE_MAPPINGS[bassNote % 12];
-
+  // Get the chord name from the mapping table
   const chord = CHORD_MAPPINGS.get(normalizedNotes.join(" "));
 
   return {
-    name: chord ? `${bassNoteLetter} ${chord}` : undefined,
+    name: chord ? `${rootLetter} ${chord}` : undefined,
     notes: normalizedNotes,
   } as Chord;
 }

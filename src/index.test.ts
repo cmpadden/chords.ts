@@ -1,4 +1,20 @@
-import { relativeNotes, identify } from "./index";
+import { rootNote, relativeNotes, identify } from "./index";
+
+describe("rootNote", () => {
+  const cases = [
+    { notes: [0, 4, 7], root: 0 },
+    { notes: [0, 4, 9], root: 9 }, // 1st inversion major
+    { notes: [0, 3, 8], root: 9 }, // 1st inversion minor
+    { notes: [0, 5, 9], root: 5 }, // 2nd inversion major
+    { notes: [0, 5, 8], root: 5 }, // 2nd inversion minor
+  ];
+  test.each(cases)(
+    "given $notes expect root note to be $root",
+    ({ notes, root }) => {
+      expect(rootNote(notes)).toEqual(root);
+    }
+  );
+});
 
 describe("relativeNotes", () => {
   it("should normalize notes relative to the lowest note", () => {
@@ -25,8 +41,10 @@ describe("identify", () => {
     { notes: [48, 51, 54], name: "C Diminished" },
 
     // chord-inversions
-    { notes: [48, 52, 57], name: "A Minor" },
-    { notes: [48, 53, 57], name: "F Major" },
+    { notes: [49, 52, 57], name: "A 1st Inversion Major" }, // 1st inversion major
+    { notes: [48, 52, 57], name: "A 1st Inversion Minor" }, // 1st inversion minor
+    { notes: [48, 53, 57], name: "F 2nd Inversion Major" }, // 2nd inversion major
+    { notes: [48, 53, 56], name: "F 2nd Inversion Minor" }, // 2nd inversion minor
 
     // letter-based chords
     { notes: ["C", "E", "G"], name: "C Major" },
