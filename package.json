@@ -6,7 +6,9 @@
   "types": "./dist/tsc/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "jest --watchAll"
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx"
   },
   "repository": "https://github.com/cmpadden/chords.ts",
   "author": "Colton Padden",
