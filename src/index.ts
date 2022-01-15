@@ -53,9 +53,9 @@ const CHORD_MAPPINGS = new Map<string, string>(
   })
 );
 
-type Note = string | number;
+export type Note = string | number;
 
-type Chord = {
+export type Chord = {
   name: string | undefined;
   root: Note;
   notes: Note[];
