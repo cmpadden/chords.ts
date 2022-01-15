@@ -80,29 +80,16 @@ export function relativeNotes(notes: number[]): number[] {
   return [...new Set(dupedNotes)].sort((a, b) => a - b);
 }
 
-/**
- * Determine the root note in a sequence of notes considering inverted chords
- * @param notes array of relative note numbers
- * @returns index number of root note
- */
-export function rootNote(notes: number[]): number {
-  // 1st-inversion major
-  if (notes.includes(0) && notes.includes(4) && notes.includes(9)) {
-    return 9;
-  }
-  // 1st-inversion minor
-  if (notes.includes(0) && notes.includes(3) && notes.includes(8)) {
-    return 9;
-  }
-  // 2nd-inversion major
-  if (notes.includes(0) && notes.includes(5) && notes.includes(9)) {
-    return 5;
-  }
-  // 2nd-inversion minor
-  if (notes.includes(0) && notes.includes(5) && notes.includes(8)) {
-    return 5;
-  }
-  return 0;
+export function isFirstInversion(notes: number[]): boolean {
+  const invMajor = notes.includes(0) && notes.includes(4) && notes.includes(9);
+  const invMinor = notes.includes(0) && notes.includes(3) && notes.includes(8);
+  return invMajor || invMinor;
+}
+
+export function isSecondInversion(notes: number[]): boolean {
+  const invMajor = notes.includes(0) && notes.includes(5) && notes.includes(9);
+  const invMinor = notes.includes(0) && notes.includes(5) && notes.includes(8);
+  return invMajor || invMinor;
 }
 
 /**
@@ -127,10 +114,14 @@ export function identify(notes: Note[]): Chord {
   // note of C, and a shape of [0, 4, 7]
   let normalizedNotes = relativeNotes(noteNumbers);
 
-  // Determine the root note of the chord, taking into consideration chord
-  // inversions
-  const root = rootNote(normalizedNotes);
-  const rootLetter: string = NOTE_MAPPINGS[root];
+  // TODO: determine a better way of handling chord inversions
+  let root = Math.min.apply(Math, noteNumbers) % 12;
+  if (isFirstInversion(normalizedNotes)) {
+    root = 9;
+  } else if (isSecondInversion(normalizedNotes)) {
+    root = 5;
+  }
+  const rootLetter: string = NOTE_MAPPINGS[root % 12];
 
   // Get the chord name from the mapping table
   const chord = CHORD_MAPPINGS.get(normalizedNotes.join(" "));
