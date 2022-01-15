@@ -1,11 +1,18 @@
-# WIP: chords.ts
+<div align="center">
+  
+![chords ts](https://user-images.githubusercontent.com/5807118/149641313-4e6abbb0-b49c-4645-8d50-67f7ced3b92c.png)
 
 [![Test](https://github.com/cmpadden/chords.ts/workflows/Test/badge.svg)](https://github.com/cmpadden/chords.ts/actions)
 [![npm](https://img.shields.io/npm/v/chords.ts)](https://www.npmjs.com/package/chords.ts)
+ 
+⚠️ This is alpha software that still needs validation and is subject to change! ⚠️
+  
+</div>
+
 
 ## Objective
 
-To be able to identify chord-signatures given note intervals or MIDI note input
+This library provides a way to identify chord names, and the associated root note, given a sequence of notes or MIDI intervals.
 
 ## References
 
