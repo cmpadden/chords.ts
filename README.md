@@ -1,4 +1,6 @@
-# chords.ts
+# WIP: chords.ts
+
+[![npm](https://img.shields.io/npm/v/chords.ts)](https://www.npmjs.com/package/chords.ts)
 
 ## Objective
 
