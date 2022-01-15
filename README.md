@@ -1,5 +1,6 @@
 # WIP: chords.ts
 
+[![Test](https://github.com/cmpadden/chords.ts/workflows/Test/badge.svg)](https://github.com/cmpadden/chords.ts/actions)
 [![npm](https://img.shields.io/npm/v/chords.ts)](https://www.npmjs.com/package/chords.ts)
 
 ## Objective
