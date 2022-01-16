@@ -78,10 +78,6 @@ describe("identify", () => {
     expect(chord.name).toEqual(name);
   });
 
-  it("should identify a basic C-major chord with high C", () => {
-    expect(identify([48, 52, 55, 60]).name).toEqual("C Major");
-  });
-
   it("should throw an error if a negative number note is specified", () => {
     expect(() => {
       identify([-1, 52, 55]);
@@ -92,5 +88,24 @@ describe("identify", () => {
     expect(() => {
       identify(["Z", "Z", "Z"]);
     }).toThrow();
+  });
+});
+
+describe("identify all possible 3-note chord permutations", () => {
+  // generate all possible 3-note chord permulations
+  const cases = [];
+  for (let i = 0; i <= 11 - 2; i++) {
+    for (let j = i + 1; j <= 11 - 1; j++) {
+      for (let k = j + 1; k <= 11 - 0; k++) {
+        cases.push([[i, j, k]]);
+      }
+    }
+  }
+
+  // 220 possible permutations for 12 elements (n=12), take 3 (k=3), given n! / k!(n - k)!
+  expect(cases.length).toEqual(220);
+
+  test.each(cases)("%p should be defined", (notes) => {
+    expect(identify(notes).name).toBeDefined();
   });
 });
