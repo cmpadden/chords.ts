@@ -1,7 +1,24 @@
-//
 // TODOs
 // - determine if I want to go the OOP route, and create a `Chord` object with a constructor that takes in notes, and populates properties like `.name`
 // - separate chord name and root note { name: 'Suspended 2', root: 'C' }
+//
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                      Types                                                     //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export type Note = string | number;
+
+export type Chord = {
+  name: string | undefined;
+  root: Note;
+  bass: Note;
+  interval: Note[];
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                   Constants                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Mapping of number to note (via array index)
@@ -24,73 +41,49 @@ const NOTE_MAPPINGS = [
 /**
  * Mapping of interval to chord name
  */
-const CHORD_MAPPINGS = new Map<string, string>(
+const RELATIVE_INTERVALS = new Map<string, { name: string; root: number }>(
   Object.entries({
-    "0 2 7": "Suspended 2",
-    "0 3 6 10": "Half-diminished 7th",
-    "0 3 6 9": "Diminished 7th",
-    "0 3 6": "Diminished",
-    "0 3 7 10": "Minor 7th",
-    "0 3 7 11": "Minor-major 7th",
-    "0 3 7 9": "Minor 6th",
-    "0 3 7": "Minor",
-    "0 4 11": "Major 7th",
-    "0 4 5 7": "Add 11",
-    "0 4 6": "Flat 5th",
-    "0 4 7 10": "Dominant 7th",
-    "0 4 7 11": "Major 7th",
-    "0 4 7 9": "Major 6th",
-    "0 4 7": "Major",
-    "0 4 8 10": "Augmented 7th",
-    "0 4 8": "Augmented",
-    "0 5 7": "Suspended 4",
+    "0 3": { name: "Minor", root: 0 },
+    "0 4": { name: "Major", root: 0 },
 
-    // inverted chords
-    "0 5 8": "2nd Inversion Minor",
-    "0 5 9": "2nd Inversion Major",
-    "0 4 9": "1st Inversion Minor",
-    "0 3 8": "1st Inversion Major",
+    "0 2 7": { name: "Suspended 2", root: 0 },
+    "0 3 6 10": { name: "Half-diminished 7", root: 0 },
+    "0 3 6 9": { name: "Diminished 7", root: 0 },
+    "0 3 6": { name: "Diminished", root: 0 },
+    "0 3 7 10": { name: "Minor 7", root: 0 },
+    "0 3 7 11": { name: "Minor-major 7", root: 0 },
+    "0 3 7 9": { name: "Minor 6", root: 0 },
+    "0 3 7": { name: "Minor", root: 0 },
+    "0 4 10": { name: "7", root: 0 },
+    "0 4 11": { name: "Major 7", root: 0 },
+    "0 4 5 7": { name: "Add 11", root: 0 },
+    "0 4 6": { name: "Flat 5", root: 0 },
+    "0 4 7 10": { name: "Dominant 7", root: 0 },
+    "0 4 7 11": { name: "Major 7", root: 0 },
+    "0 4 7 9": { name: "Major 6", root: 0 },
+    "0 4 7": { name: "Major", root: 0 },
+    "0 4 8 10": { name: "Augmented 7", root: 0 },
+    "0 4 8": { name: "Augmented", root: 0 },
+    "0 5 7": { name: "Suspended 4", root: 0 },
+
+    // 2nd inversions
+    "0 5 8": { name: "Minor", root: 5 },
+    "0 5 9": { name: "Major", root: 5 },
+
+    // 1st inversions
+    "0 4 9": { name: "Minor", root: 9 },
+    "0 3 8": { name: "Major", root: 8 },
+
+    // NOTE: these 7th chord match because we are normalizing notes to a single octave
+    "0 1 5": { name: "Major 7", root: 1 },
+    "0 2 6": { name: "Major 7", root: 2 },
+    "0 4 5": { name: "5 Major 7", root: 5 },
   })
 );
 
-export type Note = string | number;
-
-export type Chord = {
-  name: string | undefined;
-  root: Note;
-  notes: Note[];
-};
-
-/**
- * Normalize a list of notes relative to the lowest note in the list
- * @param notes array of note numbers
- * @returns Non-duplicate relative note numbers to lowest note
- */
-export function relativeNotes(notes: number[]): number[] {
-  const lowestNote: number = Math.min.apply(Math, notes);
-  const dupedNotes: number[] = notes.map((n) => {
-    const relativeNote = n - lowestNote;
-    if (relativeNote >= 12) {
-      return relativeNote % 12;
-    } else {
-      return relativeNote;
-    }
-  });
-  // remove duplicates as we removed octaves with mod 12
-  return [...new Set(dupedNotes)].sort((a, b) => a - b);
-}
-
-export function isFirstInversion(notes: number[]): boolean {
-  const invMajor = notes.includes(0) && notes.includes(4) && notes.includes(9);
-  const invMinor = notes.includes(0) && notes.includes(3) && notes.includes(8);
-  return invMajor || invMinor;
-}
-
-export function isSecondInversion(notes: number[]): boolean {
-  const invMajor = notes.includes(0) && notes.includes(5) && notes.includes(9);
-  const invMinor = notes.includes(0) && notes.includes(5) && notes.includes(8);
-  return invMajor || invMinor;
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                   Functions                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Given a sequence of notes, determine the chord name
@@ -109,25 +102,30 @@ export function identify(notes: Note[]): Chord {
     throw new Error("Unsupported note letter or number provided");
   }
 
-  // Normalize the index of the note to the lowest note in the sequence,
-  // removing octave duplicates. For example, a C-major chord will have a bass
-  // note of C, and a shape of [0, 4, 7]
-  let normalizedNotes = relativeNotes(noteNumbers);
+  // Notes relative to a single octave sorted and with duplicates removed (C major would be 0, 4, 7, and D Major would be 2, 6, 9)
+  const singleOctaveNotes = [
+    ...new Set(noteNumbers.map((n) => n % 12).sort((a, b) => a - b)),
+  ];
 
-  // TODO: determine a better way of handling chord inversions
-  let root = Math.min.apply(Math, noteNumbers) % 12;
-  if (isFirstInversion(normalizedNotes)) {
-    root = 9;
-  } else if (isSecondInversion(normalizedNotes)) {
-    root = 5;
-  }
-  const rootLetter: string = NOTE_MAPPINGS[root % 12];
+  // Relative note interval (C Major and a D Major would both be 0, 4, 7)
+  const relativeNotes = singleOctaveNotes.map(
+    (n) => n - Math.min.apply(Math, singleOctaveNotes)
+  );
 
   // Get the chord name from the mapping table
-  const chord = CHORD_MAPPINGS.get(normalizedNotes.join(" "));
+  const chord = RELATIVE_INTERVALS.get(relativeNotes.join(" "));
+
+  let rootIndex = 0;
+  if (chord) {
+    // TODO - better describe how the mamping of relative note root is used to get the octave note
+    rootIndex = singleOctaveNotes[relativeNotes.indexOf(chord.root)];
+  }
+
+  const rootLetter: string = NOTE_MAPPINGS[rootIndex];
 
   return {
-    name: chord ? `${rootLetter} ${chord}` : undefined,
-    notes: normalizedNotes,
+    name: chord ? `${rootLetter} ${chord.name}` : undefined,
+    interval: relativeNotes,
+    root: rootIndex,
   } as Chord;
 }

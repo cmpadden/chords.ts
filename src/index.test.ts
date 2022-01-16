@@ -1,19 +1,4 @@
-import { relativeNotes, identify } from "./index";
-
-describe("relativeNotes", () => {
-  it("should normalize notes relative to the lowest note", () => {
-    expect(relativeNotes([48, 52, 55])).toEqual([0, 4, 7]);
-  });
-  it("should order notes from lowest to highest", () => {
-    expect(relativeNotes([52, 55, 62, 48])).toEqual([0, 2, 4, 7]);
-  });
-  it("should convert notes in other octave to the same octave", () => {
-    expect(relativeNotes([48, 52, 55, 62])).toEqual([0, 2, 4, 7]);
-  });
-  it("should should remove duplicate notes in different octaves", () => {
-    expect(relativeNotes([48, 52, 55, 64])).toEqual([0, 4, 7]);
-  });
-});
+import { identify } from "./index";
 
 describe("identify", () => {
   const combinations = [
@@ -27,7 +12,7 @@ describe("identify", () => {
 
     // C E <n>
     { notes: [48, 52, 53], name: "F 5 Major 7" },
-    { notes: [48, 52, 54], name: "C Flat 5th" },
+    { notes: [48, 52, 54], name: "C Flat 5" },
     { notes: [48, 52, 55], name: "C Major" },
     { notes: [48, 52, 56], name: "C Augmented" },
     { notes: [48, 52, 57], name: "A Minor" },
@@ -43,11 +28,11 @@ describe("identify", () => {
 
     // D D# <n>
     { notes: [50, 54, 55], name: "G 5 Major 7" },
-    { notes: [50, 54, 56], name: "D Flat 5th" },
+    { notes: [50, 54, 56], name: "D Flat 5" },
     { notes: [50, 54, 57], name: "D Major" },
     { notes: [50, 54, 58], name: "D Augmented" },
     { notes: [50, 54, 59], name: "B Minor" },
-    { notes: [50, 54, 60], name: "D 7" },
+    { notes: [50, 54, 60], name: "D Major 7" },
     { notes: [50, 54, 61], name: "D Major 7" },
     { notes: [50, 54, 62], name: "D Major" },
 
@@ -89,7 +74,8 @@ describe("identify", () => {
     { notes: ["C", "D# / Eb", "G"], name: "C Minor" },
   ];
   test.each(combinations)("$notes should map to $name", ({ notes, name }) => {
-    expect(identify(notes).name).toEqual(name);
+    const chord = identify(notes);
+    expect(chord.name).toEqual(name);
   });
 
   it("should identify a basic C-major chord with high C", () => {
