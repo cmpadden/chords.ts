@@ -16,37 +16,81 @@ describe("relativeNotes", () => {
 });
 
 describe("identify", () => {
-  const chords = [
-    /// number-based chords
+  const combinations = [
+    // 2-note C major/minor
+    { notes: [48, 52], name: "C Major" },
+    { notes: [48, 51], name: "C Minor" },
+
+    // 2-note D major/minor
+    { notes: [50, 54], name: "D Major" },
+    { notes: [50, 53], name: "D Minor" },
+
+    // C E <n>
+    { notes: [48, 52, 53], name: "F 5 Major 7" },
+    { notes: [48, 52, 54], name: "C Flat 5th" },
     { notes: [48, 52, 55], name: "C Major" },
+    { notes: [48, 52, 56], name: "C Augmented" },
+    { notes: [48, 52, 57], name: "A Minor" },
+    { notes: [48, 52, 58], name: "C 7" },
+    { notes: [48, 52, 59], name: "C Major 7" },
+    { notes: [48, 52, 60], name: "C Major" },
+
+    /// C -
     { notes: [48, 51, 55], name: "C Minor" },
     { notes: [48, 50, 55], name: "C Suspended 2" },
     { notes: [48, 53, 55], name: "C Suspended 4" },
     { notes: [48, 51, 54], name: "C Diminished" },
 
+    // D D# <n>
+    { notes: [50, 54, 55], name: "G 5 Major 7" },
+    { notes: [50, 54, 56], name: "D Flat 5th" },
     { notes: [50, 54, 57], name: "D Major" },
+    { notes: [50, 54, 58], name: "D Augmented" },
+    { notes: [50, 54, 59], name: "B Minor" },
+    { notes: [50, 54, 60], name: "D 7" },
+    { notes: [50, 54, 61], name: "D Major 7" },
+    { notes: [50, 54, 62], name: "D Major" },
+
+    // D -
     { notes: [50, 53, 57], name: "D Minor" },
     { notes: [50, 52, 57], name: "D Suspended 2" },
     { notes: [50, 55, 57], name: "D Suspended 4" },
     { notes: [50, 53, 56], name: "D Diminished" },
 
-    // chord-inversions
-    { notes: [49, 52, 57], name: "A 1st Inversion Major" }, // 1st inversion major
-    { notes: [48, 52, 57], name: "A 1st Inversion Minor" }, // 1st inversion minor
-    { notes: [48, 53, 57], name: "F 2nd Inversion Major" }, // 2nd inversion major
-    { notes: [48, 53, 56], name: "F 2nd Inversion Minor" }, // 2nd inversion minor
+    ///////////////////////////////////////////////////////////////////////////
+    //                              Inversions                               //
+    ///////////////////////////////////////////////////////////////////////////
+
+    // C inversions
+    { notes: [52, 55, 60], name: "C Major" },
+    { notes: [55, 60, 64], name: "C Major" },
+
+    // D inversions
+    { notes: [54, 57, 62], name: "D Major" },
+    { notes: [57, 62, 66], name: "D Major" },
+
+    // A inversions
+    { notes: [49, 52, 57], name: "A Major" }, // 1st inversion major
+    { notes: [48, 52, 57], name: "A Minor" }, // 1st inversion minor
+
+    // F inversions
+    { notes: [48, 53, 57], name: "F Major" }, // 2nd inversion major
+    { notes: [48, 53, 56], name: "F Minor" }, // 2nd inversion minor
+
+    // B inversion
+    { notes: [50, 54, 59], name: "B Minor" },
+
+    ///////////////////////////////////////////////////////////////////////////
+    //                             String Input                              //
+    ///////////////////////////////////////////////////////////////////////////
 
     // letter-based chords
     { notes: ["C", "E", "G"], name: "C Major" },
     { notes: ["C", "D# / Eb", "G"], name: "C Minor" },
   ];
-
-  test.each(chords)(
-    "given $notes expect chord name $name",
-    ({ notes, name }) => {
-      expect(identify(notes).name).toEqual(name);
-    }
-  );
+  test.each(combinations)("$notes should map to $name", ({ notes, name }) => {
+    expect(identify(notes).name).toEqual(name);
+  });
 
   it("should identify a basic C-major chord with high C", () => {
     expect(identify([48, 52, 55, 60]).name).toEqual("C Major");
