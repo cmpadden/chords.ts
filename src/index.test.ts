@@ -1,4 +1,4 @@
-import { identify } from "./index";
+import { Note, identify } from "./index";
 
 describe("identify", () => {
   const combinations = [
@@ -32,7 +32,7 @@ describe("identify", () => {
     { notes: [50, 54, 57], name: "D Major" },
     { notes: [50, 54, 58], name: "D Augmented" },
     { notes: [50, 54, 59], name: "B Minor" },
-    { notes: [50, 54, 60], name: "D Major 7" },
+    { notes: [50, 54, 60], name: "D 7" },
     { notes: [50, 54, 61], name: "D Major 7" },
     { notes: [50, 54, 62], name: "D Major" },
 
@@ -65,6 +65,12 @@ describe("identify", () => {
     // B inversion
     { notes: [50, 54, 59], name: "B Minor" },
 
+    // Intervals in which the root note is not contained within the interval
+    { notes: [55, 56, 59], name: "E Sharp 9" },
+    { notes: [55, 63, 64], name: "C Sharp 9" },
+    { notes: [55, 58, 66], name: "D# / Eb Sharp 9" },
+    { notes: [55, 61, 66], name: "A 7/13" },
+
     ///////////////////////////////////////////////////////////////////////////
     //                             String Input                              //
     ///////////////////////////////////////////////////////////////////////////
@@ -74,7 +80,7 @@ describe("identify", () => {
     { notes: ["C", "D# / Eb", "G"], name: "C Minor" },
   ];
   test.each(combinations)("$notes should map to $name", ({ notes, name }) => {
-    const chord = identify(notes);
+    const chord = identify(notes as Note[]);
     expect(chord.name).toEqual(name);
   });
 
@@ -87,10 +93,40 @@ describe("identify", () => {
       identify([-1, 52, 55]);
     }).toThrow();
   });
+});
 
-  it("should throw an error if an unsupported note letter is specified", () => {
-    expect(() => {
-      identify(["Z", "Z", "Z"]);
-    }).toThrow();
+describe("identify all 2-note chord permutations", () => {
+  // generate all possible 3-note chord permutations
+  const cases = [];
+  for (let i = 0; i <= 11 - 1; i++) {
+    for (let j = i + 1; j <= 11 - 0; j++) {
+      cases.push([[i, j]]);
+    }
+  }
+
+  // 66 possible permutations for 12 elements (n=12), take 2 (k=2), given n! / k!(n - k)!
+  expect(cases.length).toEqual(66);
+
+  test.each(cases)("%p note permutation should be identified", (notes) => {
+    expect(identify(notes).name).toBeDefined();
+  });
+});
+
+describe("identify all 3-note chord permutations", () => {
+  // generate all possible 3-note chord permutations
+  const cases = [];
+  for (let i = 0; i <= 11 - 2; i++) {
+    for (let j = i + 1; j <= 11 - 1; j++) {
+      for (let k = j + 1; k <= 11 - 0; k++) {
+        cases.push([[i, j, k]]);
+      }
+    }
+  }
+
+  // 220 possible permutations for 12 elements (n=12), take 3 (k=3), given n! / k!(n - k)!
+  expect(cases.length).toEqual(220);
+
+  test.each(cases)("%p note permutation should be identified", (notes) => {
+    expect(identify(notes).name).toBeDefined();
   });
 });
