@@ -1,6 +1,6 @@
 {
   "name": "chords.ts",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Music chord identifier",
   "main": "./dist/tsc/index.js",
   "types": "./dist/tsc/index.d.ts",
