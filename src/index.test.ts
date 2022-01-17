@@ -95,7 +95,24 @@ describe("identify", () => {
   });
 });
 
-describe("all possible 3-note chord permutations should be identifiable", () => {
+describe("identify all 2-note chord permutations", () => {
+  // generate all possible 3-note chord permutations
+  const cases = [];
+  for (let i = 0; i <= 11 - 1; i++) {
+    for (let j = i + 1; j <= 11 - 0; j++) {
+      cases.push([[i, j]]);
+    }
+  }
+
+  // 66 possible permutations for 12 elements (n=12), take 2 (k=2), given n! / k!(n - k)!
+  expect(cases.length).toEqual(66);
+
+  test.each(cases)("%p note permutation should be identified", (notes) => {
+    expect(identify(notes).name).toBeDefined();
+  });
+});
+
+describe("identify all 3-note chord permutations", () => {
   // generate all possible 3-note chord permutations
   const cases = [];
   for (let i = 0; i <= 11 - 2; i++) {
