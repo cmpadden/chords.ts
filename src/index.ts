@@ -122,7 +122,7 @@ const RELATIVE_INTERVALS: IntervalMapping = {
   "0 2 3": { name: "Minor Add 9", rootOffset: 0 },
   "0 2 4": { name: "Add 9", rootOffset: 0 },
   "0 2 5": { name: "Minor 7", rootOffset: 2 },
-  "0 2 8": { name: "Flat 5", rootOffset: 9 },
+  "0 2 8": { name: "Flat 5", rootOffset: 8 },
   "0 2 9": { name: "5 7", rootOffset: 2 },
   "0 3 10": { name: "Minor 7", rootOffset: 0 },
   "0 3 4": { name: "Sharp 9", rootOffset: 0 },
