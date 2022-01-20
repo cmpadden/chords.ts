@@ -2,6 +2,307 @@ import { Note, identify } from "./index";
 
 describe("identify", () => {
   const combinations = [
+    // 3-note permutations
+
+    // 0
+
+    { notes: [0, 1, 2], name: "D No 3 Major 7" },
+    { notes: [0, 1, 3], name: "C Minor Add Flat 9" },
+    { notes: [0, 1, 4], name: "A Sharp 9" },
+    { notes: [0, 1, 5], name: "D Flat Major 7" },
+    { notes: [0, 1, 6], name: "F Sharp 5 Sharp 11" },
+    { notes: [0, 1, 7], name: "C 5 Add Flat 9" },
+    { notes: [0, 1, 8], name: "D Flat 5 Major 7" },
+    { notes: [0, 1, 9], name: "A Sharp 9" },
+    { notes: [0, 1, 10], name: "B Flat Minor Add 9" },
+    { notes: [0, 1, 11], name: "D Flat No 3 7 Major 7" },
+
+    { notes: [0, 2, 3], name: "C Minor Add 9" },
+    { notes: [0, 2, 4], name: "C Add 9" },
+    { notes: [0, 2, 5], name: "D Minor 7" },
+    { notes: [0, 2, 6], name: "D 7" },
+    { notes: [0, 2, 7], name: "C sus 2" },
+    { notes: [0, 2, 8], name: "A Flat Flat 5" },
+    { notes: [0, 2, 9], name: "D 5 7" },
+    { notes: [0, 2, 10], name: "B Flat Add 9" },
+    { notes: [0, 2, 11], name: "B Minor Add Flat 9" },
+
+    { notes: [0, 3, 4], name: "C Sharp 9" },
+    { notes: [0, 3, 5], name: "F 5 7" },
+    { notes: [0, 3, 6], name: "C Dim" },
+    { notes: [0, 3, 7], name: "C Minor" },
+    { notes: [0, 3, 8], name: "A Flat" },
+    { notes: [0, 3, 9], name: "C Minor 6" },
+    { notes: [0, 3, 10], name: "C Minor 7" },
+    { notes: [0, 3, 11], name: "A Flat Sharp 9" },
+
+    { notes: [0, 4, 5], name: "F 5 Major 7" },
+    { notes: [0, 4, 6], name: "C Flat 5" },
+    { notes: [0, 4, 7], name: "C Major" },
+    { notes: [0, 4, 8], name: "C Augmented" },
+    { notes: [0, 4, 9], name: "A Minor" },
+    { notes: [0, 4, 10], name: "C 7" },
+    { notes: [0, 4, 11], name: "C Major 7" },
+
+    { notes: [0, 5, 6], name: "F 5 Add Flat 9" },
+    { notes: [0, 5, 7], name: "C Sus 4" },
+    { notes: [0, 5, 8], name: "F Minor" },
+    { notes: [0, 5, 9], name: "F Major" },
+    { notes: [0, 5, 10], name: "B Flat Sus 2" },
+    { notes: [0, 5, 11], name: "F 5 Sharp 11" },
+
+    { notes: [0, 6, 7], name: "C 5 Sharp 11" },
+    { notes: [0, 6, 8], name: "A Flat 7" },
+    { notes: [0, 6, 9], name: "A Minor 6" },
+    { notes: [0, 6, 10], name: "F Sharp Flat 5" },
+    { notes: [0, 6, 11], name: "D 7/13" },
+
+    { notes: [0, 7, 8], name: "A Flat Major 7" },
+    { notes: [0, 7, 9], name: "A Minor 7" },
+    { notes: [0, 7, 10], name: "C 5 7" },
+    { notes: [0, 7, 11], name: "C 5 Major 7" },
+
+    { notes: [0, 8, 9], name: "F Sharp 9" },
+    { notes: [0, 8, 10], name: "A Flat Add 9" },
+    { notes: [0, 8, 11], name: "A Flat Sharp 9" },
+
+    { notes: [0, 9, 10], name: "A Minor Add Flat 9" },
+    { notes: [0, 9, 11], name: "A Minor Add 9" },
+
+    { notes: [0, 10, 11], name: "C No 3 7 Major 7" },
+
+    // 1
+
+    { notes: [1, 2, 3], name: "E Flat No 3 7 Major 7" },
+    { notes: [1, 2, 4], name: "C Sharp Minor Add Flat 9" },
+    { notes: [1, 2, 5], name: "B Flat Sharp 9" },
+    { notes: [1, 2, 6], name: "D Major 7" },
+    { notes: [1, 2, 7], name: "G 5 Sharp 11" },
+    { notes: [1, 2, 8], name: "D Flat 5 Add Flat 9" },
+    { notes: [1, 2, 9], name: "D 5 Major 7" },
+    { notes: [1, 2, 10], name: "B Flat Sharp 9" },
+    { notes: [1, 2, 11], name: "B Minor Add 9" },
+
+    { notes: [1, 3, 4], name: "C Sharp Minor Add 9" },
+    { notes: [1, 3, 5], name: "D Flat Add 9" },
+    { notes: [1, 3, 6], name: "E Flat Minor 7" },
+    { notes: [1, 3, 7], name: "E Flat 7" },
+    { notes: [1, 3, 8], name: "D Flat Sus 2" },
+    { notes: [1, 3, 9], name: "A Flat 5" },
+    { notes: [1, 3, 10], name: "E Flat 5 7" },
+    { notes: [1, 3, 11], name: "B Add 9" },
+
+    { notes: [1, 4, 5], name: "D Flat Sharp 9" },
+    { notes: [1, 4, 6], name: "F Sharp 5 7" },
+    { notes: [1, 4, 7], name: "C Sharp Dim" },
+    { notes: [1, 4, 8], name: "C Sharp Minor" },
+    { notes: [1, 4, 9], name: "A Major" },
+    { notes: [1, 4, 10], name: "C Sharp Minor 6" },
+    { notes: [1, 4, 11], name: "C Sharp Minor 7" },
+
+    { notes: [1, 5, 6], name: "F Sharp 5 Major 7" },
+    { notes: [1, 5, 7], name: "D Flat Flat 5" },
+    { notes: [1, 5, 8], name: "D Flat" },
+    { notes: [1, 5, 9], name: "D Flat Aug" },
+    { notes: [1, 5, 10], name: "B Flat Minor" },
+    { notes: [1, 5, 11], name: "D Flat 7" },
+
+    { notes: [1, 6, 7], name: "F Sharp Add Flat 9" },
+    { notes: [1, 6, 8], name: "D Flat Sus 4" },
+    { notes: [1, 6, 9], name: "F Sharp Minor" },
+    { notes: [1, 6, 10], name: "F Sharp" },
+    { notes: [1, 6, 11], name: "B Sus 2" },
+
+    { notes: [1, 7, 8], name: "D Flat 5 Sharp 11" },
+    { notes: [1, 7, 9], name: "A 7" },
+    { notes: [1, 7, 10], name: "B Flat Minor 6" },
+    { notes: [1, 7, 11], name: "G Flat 5" },
+
+    { notes: [1, 8, 9], name: "A Major 7" },
+    { notes: [1, 8, 10], name: "B Flat Minor 7" },
+    { notes: [1, 8, 11], name: "D Flat 5 7" },
+
+    { notes: [1, 9, 10], name: "F Sharp Sharp 9" },
+    { notes: [1, 9, 11], name: "A Add 9" },
+
+    { notes: [1, 10, 11], name: "B Flat Minor Add Flat 9" },
+
+    // 2
+
+    { notes: [2, 3, 4], name: "E No 3 7 Major 7" },
+    { notes: [2, 3, 5], name: "D Minor Add Flat 9" },
+    { notes: [2, 3, 6], name: "B Flat 9" },
+    { notes: [2, 3, 7], name: "E Flat Major 7" },
+    { notes: [2, 3, 8], name: "A Flat 5 Sharp 11" },
+    { notes: [2, 3, 9], name: "D 5 Add Flat 9" },
+    { notes: [2, 3, 10], name: "E Flat 5 Major 7" },
+    { notes: [2, 3, 11], name: "B Sharp 9" },
+
+    { notes: [2, 4, 5], name: "D Minor Add 9" },
+    { notes: [2, 4, 6], name: "D Add 9" },
+    { notes: [2, 4, 7], name: "E Minor 7" },
+    { notes: [2, 4, 8], name: "E 7" },
+    { notes: [2, 4, 9], name: "D Sus 2" },
+    { notes: [2, 4, 10], name: "B Flat Flat 5" },
+    { notes: [2, 4, 11], name: "E 5 7" },
+
+    { notes: [2, 5, 6], name: "D Sharp 9" },
+    { notes: [2, 5, 7], name: "G 5 7" },
+    { notes: [2, 5, 8], name: "D Dim" },
+    { notes: [2, 5, 9], name: "D Minor" },
+    { notes: [2, 5, 10], name: "B Flat" },
+    { notes: [2, 5, 11], name: "D Minor 6" },
+
+    { notes: [2, 6, 7], name: "G 5 Major 7" },
+    { notes: [2, 6, 8], name: "D Flat 5" },
+    { notes: [2, 6, 9], name: "D" },
+    { notes: [2, 6, 10], name: "D Augmented" },
+    { notes: [2, 6, 11], name: "B Minor" },
+
+    { notes: [2, 7, 8], name: "G 5 Add Flat 9" },
+    { notes: [2, 7, 9], name: "D Sus 4" },
+    { notes: [2, 7, 10], name: "G Minor" },
+    { notes: [2, 7, 11], name: "G Major" },
+
+    { notes: [2, 8, 9], name: "D 5 Sharp 11" },
+    { notes: [2, 8, 10], name: "B Flat 7" },
+    { notes: [2, 8, 11], name: "B Minor 6" },
+
+    { notes: [2, 9, 10], name: "B Flat Major 7" },
+    { notes: [2, 9, 11], name: "B Minor 7" },
+
+    { notes: [2, 10, 11], name: "G Sharp 9" },
+
+    // 3
+
+    { notes: [3, 4, 5], name: "F No 3 7 Major 7" },
+    { notes: [3, 4, 6], name: "E Flat Minor Add Flat 9" },
+    { notes: [3, 4, 7], name: "C Sharp 9" },
+    { notes: [3, 4, 8], name: "E Major 7" },
+    { notes: [3, 4, 9], name: "A 5 Sharp 11" },
+    { notes: [3, 4, 10], name: "E Flat 5 Add Flat 9" },
+    { notes: [3, 4, 11], name: "E 5 Major 7" },
+
+    { notes: [3, 5, 6], name: "E Flat Minor Add 9" },
+    { notes: [3, 5, 7], name: "E Flat Add 9" },
+    { notes: [3, 5, 8], name: "F Minor 7" },
+    { notes: [3, 5, 9], name: "F 7" },
+    { notes: [3, 5, 10], name: "E Flat Sus 2" },
+    { notes: [3, 5, 11], name: "B Flat 5" },
+
+    { notes: [3, 6, 7], name: "E Flat Sharp 9" },
+    { notes: [3, 6, 8], name: "A Flat 5 7" },
+    { notes: [3, 6, 9], name: "E Flat Diminished" },
+    { notes: [3, 6, 10], name: "E Flat Minor" },
+    { notes: [3, 6, 11], name: "B Major" },
+
+    { notes: [3, 7, 8], name: "A Flat 5 Major 7" },
+    { notes: [3, 7, 9], name: "E Flat Flat 5" },
+    { notes: [3, 7, 10], name: "E Flat" },
+    { notes: [3, 7, 11], name: "E Flat Augmented" },
+
+    { notes: [3, 8, 9], name: "A Flat 5 Add Flat 9" },
+    { notes: [3, 8, 10], name: "E Flat Sus 4" },
+    { notes: [3, 8, 11], name: "G Sharp Minor" },
+
+    { notes: [3, 9, 10], name: "E Flat 5 Sharp 11" },
+    { notes: [3, 9, 11], name: "B 7" },
+
+    { notes: [3, 10, 11], name: "B Major 7" },
+
+    // 4
+
+    { notes: [4, 5, 6], name: "F Sharp No 3 7 Major 7" },
+    { notes: [4, 5, 7], name: "E Minor Add Flat 9" },
+    { notes: [4, 5, 8], name: "D Flat Sharp 9" },
+    { notes: [4, 5, 9], name: "F Major 7" },
+    { notes: [4, 5, 10], name: "D Flat 5 Sharp 11" },
+    { notes: [4, 5, 11], name: "E 5 Add Flat 9" },
+
+    { notes: [4, 6, 7], name: "E Minor Add 9" },
+    { notes: [4, 6, 8], name: "E Add 9" },
+    { notes: [4, 6, 9], name: "5 Sharp Minor 7" },
+    { notes: [4, 6, 10], name: "F Sharp 7" },
+    { notes: [4, 6, 11], name: "E Sus 2" },
+
+    { notes: [4, 7, 8], name: "E Sharp 9" },
+    { notes: [4, 7, 9], name: "A 5 7" },
+    { notes: [4, 7, 10], name: "E Diminished" },
+    { notes: [4, 7, 11], name: "E Minor" },
+
+    { notes: [4, 8, 9], name: "A 5 Major 7" },
+    { notes: [4, 8, 10], name: "E Flat 5" },
+    { notes: [4, 8, 11], name: "E Major" },
+
+    { notes: [4, 9, 10], name: "A 5 Add Flat 9" },
+    { notes: [4, 9, 11], name: "E Sus 4" },
+
+    { notes: [4, 10, 11], name: "E 5 Sharp 11" },
+
+    // 5
+
+    { notes: [5, 6, 7], name: "G No 3 7 Major 7" },
+    { notes: [5, 6, 8], name: "F Minor Add Flat 9" },
+    { notes: [5, 6, 9], name: "D Sharp 9" },
+    { notes: [5, 6, 10], name: "F Sharp Major 7" },
+    { notes: [5, 6, 11], name: "B 5 Sharp 11" },
+
+    { notes: [5, 7, 8], name: "F Minor Add 9" },
+    { notes: [5, 7, 9], name: "F Add 9" },
+    { notes: [5, 7, 10], name: "G Minor 7" },
+    { notes: [5, 7, 11], name: "G 7" },
+
+    { notes: [5, 8, 9], name: "F Sharp 9" },
+    { notes: [5, 8, 10], name: "B Flat 5 7" },
+    { notes: [5, 8, 11], name: "F Diminished" },
+
+    { notes: [5, 9, 10], name: "B Flat 5 Major 7" },
+    { notes: [5, 9, 11], name: "F Flat 5" },
+
+    { notes: [5, 10, 11], name: "B Flat 5 Add Flat 9" },
+
+    // 6
+
+    { notes: [6, 7, 8], name: "A Flat No 3 7 Major 7" },
+    { notes: [6, 7, 9], name: "F Sharp Minor Add Flat 9" },
+    { notes: [6, 7, 10], name: "E Flat Sharp 9" },
+    { notes: [6, 7, 11], name: "G Major 7" },
+
+    { notes: [6, 8, 9], name: "F Sharp Minor Add 9" },
+    { notes: [6, 8, 10], name: "F Sharp Add 9" },
+    { notes: [6, 8, 11], name: "G Sharp Minor 7" },
+
+    { notes: [6, 9, 10], name: "F Sharp Sharp 9" },
+    { notes: [6, 9, 11], name: "B 5 7" },
+
+    { notes: [6, 10, 11], name: "B 5 Major 7" },
+
+    // 7
+
+    { notes: [7, 8, 9], name: "A No 3 7 Major 7" },
+    { notes: [7, 8, 10], name: "G Minor Add Flat 9" },
+    { notes: [7, 8, 11], name: "E Sharp 9" },
+
+    { notes: [7, 9, 10], name: "G Minor Add 9" },
+    { notes: [7, 9, 11], name: "G Add 9" },
+
+    { notes: [7, 10, 11], name: "G Sharp 9" },
+
+    // 8
+
+    { notes: [8, 9, 10], name: "B Flat No 3 7 Major 7" },
+    { notes: [8, 9, 11], name: "G Sharp Minor Add Flat 9" },
+
+    { notes: [8, 10, 11], name: "G Sharp Minor Add 9" },
+
+    // 9
+
+    { notes: [9, 10, 11], name: "B No 3 7 Major 7" },
+
+    ///////////////////////////////////////////////////////////////////////////
+    //                           Common Chords                               //
+    ///////////////////////////////////////////////////////////////////////////
+
     // 2-note C major/minor
     { notes: [48, 52], name: "C Major" },
     { notes: [48, 51], name: "C Minor" },
