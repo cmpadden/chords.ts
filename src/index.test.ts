@@ -2,6 +2,21 @@ import { Note, identify } from "./index";
 
 describe("identify", () => {
   const combinations = [
+    // 1-note permutations
+
+    { notes: [0], name: "C" },
+    { notes: [1], name: "C# / Db" },
+    { notes: [2], name: "D" },
+    { notes: [3], name: "D# / Eb" },
+    { notes: [4], name: "E" },
+    { notes: [5], name: "F" },
+    { notes: [6], name: "F# / Gb" },
+    { notes: [7], name: "G" },
+    { notes: [8], name: "G# / Ab" },
+    { notes: [9], name: "A" },
+    { notes: [10], name: "A# / Bb" },
+    { notes: [11], name: "B" },
+    { notes: [12], name: "C" },
 
     // 2-note permutations
 
@@ -18,6 +33,9 @@ describe("identify", () => {
     { notes: [0, 9], name: "A Minor" },
     { notes: [0, 10], name: "C No 3 7" },
     { notes: [0, 11], name: "C No 3 Major 7" },
+
+    { notes: [0, 12], name: "C" },
+    { notes: [12, 0], name: "C" },
 
     { notes: [1, 2], name: "D No 3 Major 7" },
     { notes: [1, 3], name: "D# / Eb No 3 7" },
@@ -83,7 +101,6 @@ describe("identify", () => {
     { notes: [9, 11], name: "B No 3 7" },
 
     { notes: [10, 11], name: "B No 3 Major 7" },
-
 
     // 3-note permutations
 

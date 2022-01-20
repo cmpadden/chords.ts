@@ -174,6 +174,13 @@ export function identify(notes: Note[]): Chord {
     throw new Error("Unsupported note letter or number provided");
   }
 
+  // If only one _unique_ note is provided, immediately return that note name
+  if (new Set(numbers.map((n) => n % 12)).size === 1) {
+    return {
+      name: NOTE_MAPPINGS[numbers[0] % 12],
+    } as Chord;
+  }
+
   // The lowest note in the octave is used to calculate the root note of the chord using the `chord.rootOffset`
   const bassNote = numbers.sort((a, b) => a - b)[0] % 12;
 
