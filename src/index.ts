@@ -19,7 +19,7 @@ type StringNote =
   | "D# / Eb"
   | "E"
   | "F"
-  | "F# / Bb"
+  | "F# / Gb"
   | "G"
   | "G# / Ab"
   | "A"
@@ -50,7 +50,7 @@ const NOTE_MAPPINGS: NoteMapping = [
   "D# / Eb",
   "E",
   "F",
-  "F# / Bb",
+  "F# / Gb",
   "G",
   "G# / Ab",
   "A",
@@ -65,12 +65,12 @@ const RELATIVE_INTERVALS: IntervalMapping = {
   "0 1": { name: "No 3 Major 7", rootOffset: 1 },
   "0 2": { name: "No 3 7", rootOffset: 2 },
   "0 3": { name: "Minor", rootOffset: 0 },
-  "0 4": { name: "Major", rootOffset: 0 },
+  "0 4": { name: "", rootOffset: 0 }, // Major
   "0 5": { name: "5", rootOffset: 5 },
   "0 6": { name: "7", rootOffset: 2 },
   "0 7": { name: "5", rootOffset: 0 },
   "0 8": { name: "", rootOffset: 8 },
-  "0 9": { name: "", rootOffset: 9 },
+  "0 9": { name: "Minor", rootOffset: 9 },
   "0 10": { name: "No 3 7", rootOffset: 0 },
   "0 11": { name: "No 3 Major 7", rootOffset: 0 },
 
@@ -90,18 +90,18 @@ const RELATIVE_INTERVALS: IntervalMapping = {
   "0 4 7 10": { name: "Dominant 7", rootOffset: 0 },
   "0 4 7 11": { name: "Major 7", rootOffset: 0 },
   "0 4 7 9": { name: "Major 6", rootOffset: 0 },
-  "0 4 7": { name: "Major", rootOffset: 0 },
+  "0 4 7": { name: "", rootOffset: 0 }, // Major
   "0 4 8 10": { name: "Augmented 7", rootOffset: 0 },
   "0 4 8": { name: "Augmented", rootOffset: 0 },
   "0 5 7": { name: "Suspended 4", rootOffset: 0 },
 
   // 2nd inversions
   "0 5 8": { name: "Minor", rootOffset: 5 },
-  "0 5 9": { name: "Major", rootOffset: 5 },
+  "0 5 9": { name: "", rootOffset: 5 },
 
   // 1st inversions
   "0 4 9": { name: "Minor", rootOffset: 9 },
-  "0 3 8": { name: "Major", rootOffset: 8 },
+  "0 3 8": { name: "", rootOffset: 8 },
 
   // NOTE: these 7th chord match because we are normalizing notes to a single octave
   "0 1 5": { name: "Major 7", rootOffset: 1 },
@@ -200,7 +200,7 @@ export function identify(notes: Note[]): Chord {
     const rootLetter: string = NOTE_MAPPINGS[rootIndex];
 
     return {
-      name: `${rootLetter} ${chord.name}`,
+      name: chord.name !== "" ? `${rootLetter} ${chord.name}` : rootLetter,
       interval: relativeNotes,
       root: rootIndex,
     } as Chord;
