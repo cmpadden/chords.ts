@@ -19,7 +19,7 @@ type StringNote =
   | "D# / Eb"
   | "E"
   | "F"
-  | "F# / Bb"
+  | "F# / Gb"
   | "G"
   | "G# / Ab"
   | "A"
@@ -50,7 +50,7 @@ const NOTE_MAPPINGS: NoteMapping = [
   "D# / Eb",
   "E",
   "F",
-  "F# / Bb",
+  "F# / Gb",
   "G",
   "G# / Ab",
   "A",
@@ -65,12 +65,12 @@ const RELATIVE_INTERVALS: IntervalMapping = {
   "0 1": { name: "No 3 Major 7", rootOffset: 1 },
   "0 2": { name: "No 3 7", rootOffset: 2 },
   "0 3": { name: "Minor", rootOffset: 0 },
-  "0 4": { name: "Major", rootOffset: 0 },
+  "0 4": { name: "", rootOffset: 0 }, // Major
   "0 5": { name: "5", rootOffset: 5 },
   "0 6": { name: "7", rootOffset: 2 },
   "0 7": { name: "5", rootOffset: 0 },
   "0 8": { name: "", rootOffset: 8 },
-  "0 9": { name: "", rootOffset: 9 },
+  "0 9": { name: "Minor", rootOffset: 9 },
   "0 10": { name: "No 3 7", rootOffset: 0 },
   "0 11": { name: "No 3 Major 7", rootOffset: 0 },
 
@@ -86,21 +86,22 @@ const RELATIVE_INTERVALS: IntervalMapping = {
   "0 4 11": { name: "Major 7", rootOffset: 0 },
   "0 4 5 7": { name: "Add 11", rootOffset: 0 },
   "0 4 6": { name: "Flat 5", rootOffset: 0 },
+  // "0 4 6": { name: "5", rootOffset: 11 },
   "0 4 7 10": { name: "Dominant 7", rootOffset: 0 },
   "0 4 7 11": { name: "Major 7", rootOffset: 0 },
   "0 4 7 9": { name: "Major 6", rootOffset: 0 },
-  "0 4 7": { name: "Major", rootOffset: 0 },
+  "0 4 7": { name: "", rootOffset: 0 }, // Major
   "0 4 8 10": { name: "Augmented 7", rootOffset: 0 },
   "0 4 8": { name: "Augmented", rootOffset: 0 },
   "0 5 7": { name: "Suspended 4", rootOffset: 0 },
 
   // 2nd inversions
   "0 5 8": { name: "Minor", rootOffset: 5 },
-  "0 5 9": { name: "Major", rootOffset: 5 },
+  "0 5 9": { name: "", rootOffset: 5 },
 
   // 1st inversions
   "0 4 9": { name: "Minor", rootOffset: 9 },
-  "0 3 8": { name: "Major", rootOffset: 8 },
+  "0 3 8": { name: "", rootOffset: 8 },
 
   // NOTE: these 7th chord match because we are normalizing notes to a single octave
   "0 1 5": { name: "Major 7", rootOffset: 1 },
@@ -108,26 +109,26 @@ const RELATIVE_INTERVALS: IntervalMapping = {
   "0 4 5": { name: "5 Major 7", rootOffset: 5 },
 
   // chords identified during permutation tests
-  "0 1 2": { name: "No 3 7/Maj7", rootOffset: 2 },
+  "0 1 2": { name: "No 3 7 Major 7", rootOffset: 2 },
   "0 1 3": { name: "Minor Add Flat 9", rootOffset: 0 },
-  "0 1 6": { name: "Sharp 5 Sharp 11", rootOffset: 6 },
+  "0 1 6": { name: "5 Sharp 11", rootOffset: 6 },
   "0 1 7": { name: "5 Add Flat 9", rootOffset: 0 },
   "0 1 8": { name: "5 Major 7", rootOffset: 1 },
   "0 1 9": { name: "Sharp 9", rootOffset: 9 },
   "0 1 10": { name: "Minor Add 9", rootOffset: 10 },
-  "0 1 11": { name: "No 3 7/Maj7", rootOffset: 1 },
+  "0 1 11": { name: "No 3 7 Major 7", rootOffset: 1 },
   "0 2 10": { name: "Add 9", rootOffset: 10 },
   "0 2 11": { name: "Minor Add Flat 9", rootOffset: 11 },
-  "0 2 3": { name: "Minor Add 9", rootOffset: 2 },
+  "0 2 3": { name: "Minor Add 9", rootOffset: 0 },
   "0 2 4": { name: "Add 9", rootOffset: 0 },
   "0 2 5": { name: "Minor 7", rootOffset: 2 },
-  "0 2 8": { name: "Flat 5", rootOffset: 9 },
+  "0 2 8": { name: "Flat 5", rootOffset: 8 },
   "0 2 9": { name: "5 7", rootOffset: 2 },
   "0 3 10": { name: "Minor 7", rootOffset: 0 },
   "0 3 4": { name: "Sharp 9", rootOffset: 0 },
   "0 3 5": { name: "5 7", rootOffset: 5 },
   "0 3 9": { name: "Minor 6", rootOffset: 0 },
-  "0 5 10": { name: "Sus 2", rootOffset: 10 },
+  "0 5 10": { name: "Suspended 2", rootOffset: 10 },
   "0 5 11": { name: "5 Sharp 11", rootOffset: 5 },
   "0 5 6": { name: "5 Add Flat 9", rootOffset: 5 },
   "0 6 10": { name: "Flat 5", rootOffset: 6 },
@@ -142,7 +143,7 @@ const RELATIVE_INTERVALS: IntervalMapping = {
   "0 8 11": { name: "Sharp 9", rootOffset: 8 },
   "0 9 10": { name: "Minor Add Flat 9", rootOffset: 9 },
   "0 9 11": { name: "Minor Add 9", rootOffset: 9 },
-  "0 10 11": { name: "No 3 7/Maj7", rootOffset: 0 },
+  "0 10 11": { name: "No 3 7 Major 7", rootOffset: 0 },
 
   // Some chords have a rootOffset note that isn't actually included in the relative note sequence. For example, 0 1 4 has a
   // relative note that is 9 half-steps greater than the note at index 0
@@ -199,7 +200,7 @@ export function identify(notes: Note[]): Chord {
     const rootLetter: string = NOTE_MAPPINGS[rootIndex];
 
     return {
-      name: `${rootLetter} ${chord.name}`,
+      name: chord.name !== "" ? `${rootLetter} ${chord.name}` : rootLetter,
       interval: relativeNotes,
       root: rootIndex,
     } as Chord;
