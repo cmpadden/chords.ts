@@ -27,7 +27,7 @@ describe("identify", () => {
     { notes: [0, 2, 10], name: "A# / Bb Add 9" },
     { notes: [0, 2, 11], name: "B Minor Add Flat 9" },
 
-    { notes: [0, 3, 4], name: "C# / Db 9" },
+    { notes: [0, 3, 4], name: "C Sharp 9" },
     { notes: [0, 3, 5], name: "F 5 7" },
     { notes: [0, 3, 6], name: "C Diminished" },
     { notes: [0, 3, 7], name: "C Minor" },
@@ -62,7 +62,7 @@ describe("identify", () => {
     { notes: [0, 7, 10], name: "C 5 7" },
     { notes: [0, 7, 11], name: "C 5 Major 7" },
 
-    { notes: [0, 8, 9], name: "F# / Bb 9" },
+    { notes: [0, 8, 9], name: "F Sharp 9" },
     { notes: [0, 8, 10], name: "G# / Ab Add 9" },
     { notes: [0, 8, 11], name: "G# / Ab Sharp 9" },
 
@@ -88,7 +88,7 @@ describe("identify", () => {
     { notes: [1, 3, 6], name: "D# / Eb Minor 7" },
     { notes: [1, 3, 7], name: "D# / Eb Major 7" },
     { notes: [1, 3, 8], name: "C# / Db Suspended 2" },
-    { notes: [1, 3, 9], name: "G# / Ab 5" },
+    { notes: [1, 3, 9], name: "A Flat 5" },
     { notes: [1, 3, 10], name: "D# / Eb 5 7" },
     { notes: [1, 3, 11], name: "B Add 9" },
 
@@ -131,7 +131,7 @@ describe("identify", () => {
 
     { notes: [2, 3, 4], name: "E No 3 7 Major 7" },
     { notes: [2, 3, 5], name: "D Minor Add Flat 9" },
-    { notes: [2, 3, 6], name: "A# / Bb 9" },
+    { notes: [2, 3, 6], name: "B Sharp 9" },
     { notes: [2, 3, 7], name: "D# / Eb Major 7" },
     { notes: [2, 3, 8], name: "G# / Ab 5 Sharp 11" },
     { notes: [2, 3, 9], name: "D 5 Add Flat 9" },
@@ -154,7 +154,7 @@ describe("identify", () => {
     { notes: [2, 5, 11], name: "D Minor 6" },
 
     { notes: [2, 6, 7], name: "G 5 Major 7" },
-    { notes: [2, 6, 8], name: "C# / Db 5" },
+    { notes: [2, 6, 8], name: "D Flat 5" },
     { notes: [2, 6, 9], name: "D Major" },
     { notes: [2, 6, 10], name: "D Augmented" },
     { notes: [2, 6, 11], name: "B Minor" },
@@ -171,13 +171,13 @@ describe("identify", () => {
     { notes: [2, 9, 10], name: "A# / Bb Major 7" },
     { notes: [2, 9, 11], name: "B Minor 7" },
 
-    { notes: [2, 10, 11], name: "G# / Ab 9" },
+    { notes: [2, 10, 11], name: "G Sharp 9" },
 
     // 3
 
     { notes: [3, 4, 5], name: "F No 3 7 Major 7" },
     { notes: [3, 4, 6], name: "D# / Eb Minor Add Flat 9" },
-    { notes: [3, 4, 7], name: "C# / Db 9" },
+    { notes: [3, 4, 7], name: "C Sharp 9" },
     { notes: [3, 4, 8], name: "E Major 7" },
     { notes: [3, 4, 9], name: "A 5 Sharp 11" },
     { notes: [3, 4, 10], name: "D# / Eb 5 Add Flat 9" },
@@ -188,7 +188,7 @@ describe("identify", () => {
     { notes: [3, 5, 8], name: "F Minor 7" },
     { notes: [3, 5, 9], name: "F Major 7" },
     { notes: [3, 5, 10], name: "D# / Eb Suspended 2" },
-    { notes: [3, 5, 11], name: "A# / Bb 5" },
+    { notes: [3, 5, 11], name: "B Flat 5" },
 
     { notes: [3, 6, 7], name: "D# / Eb Sharp 9" },
     { notes: [3, 6, 8], name: "G# / Ab 5 7" },
@@ -231,7 +231,7 @@ describe("identify", () => {
     { notes: [4, 7, 11], name: "E Minor" },
 
     { notes: [4, 8, 9], name: "A 5 Major 7" },
-    { notes: [4, 8, 10], name: "D# / Eb 5" },
+    { notes: [4, 8, 10], name: "E Flat 5" },
     { notes: [4, 8, 11], name: "E Major" },
 
     { notes: [4, 9, 10], name: "A 5 Add Flat 9" },
@@ -252,7 +252,7 @@ describe("identify", () => {
     { notes: [5, 7, 10], name: "G Minor 7" },
     { notes: [5, 7, 11], name: "G Major 7" },
 
-    { notes: [5, 8, 9], name: "F# / Bb 9" },
+    { notes: [5, 8, 9], name: "F Sharp 9" },
     { notes: [5, 8, 10], name: "A# / Bb 5 7" },
     { notes: [5, 8, 11], name: "F Diminished" },
 
@@ -329,7 +329,7 @@ describe("identify", () => {
 
     // D D# <n>
     { notes: [50, 54, 55], name: "G 5 Major 7" },
-    { notes: [50, 54, 56], name: "C# / Db 5" },
+    { notes: [50, 54, 56], name: "D Flat 5" },
     { notes: [50, 54, 57], name: "D Major" },
     { notes: [50, 54, 58], name: "D Augmented" },
     { notes: [50, 54, 59], name: "B Minor" },
@@ -368,7 +368,7 @@ describe("identify", () => {
 
     // Intervals in which the root note is not contained within the interval
     { notes: [55, 56, 59], name: "E Sharp 9" },
-    { notes: [55, 63, 64], name: "C# / Db 9" },
+    { notes: [55, 63, 64], name: "C Sharp 9" },
     { notes: [55, 58, 66], name: "D# / Eb Sharp 9" },
     { notes: [55, 61, 66], name: "A 7/13" },
 
